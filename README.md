@@ -1,7 +1,7 @@
 # this is the main entry of kindect/Adapted-game-snake
 The project is written in Python, and currently it is used for the contest.
 
-using MulanPSL-2 lisense which is required for the contest.
+Using MulanPSL-2 lisense which is required for the contest.
 
 Futher info about the code can be found in wiki.
 
@@ -10,7 +10,7 @@ Dependencies: Pygame sys time random threading
 ## Latest Release:
 https://gitee.com/kindect/Adapted-game-snake/releases
 
-also on github:
+Also on github:
 
 https://github.com/kindect/Adapted-game-snake/releases
 
@@ -42,17 +42,17 @@ Only provide release in Windows Platform, other platform see Build:
 ## Features by now:
 Regular snake features: moving around.(using module threading)
 
-default refresh rate is 60fps.(can change it)
+Default refresh rate is 60fps.(can change it)
 
-multi-food(default is 3)
+Multi-food(default is 3)
 
 ## Bugs:
 If you find a bug, please bring up a issue, or better, PR
 * The release version sometimes bring up a runtime error that the food in foods is a NoneType and raise a error(need to reproduce)
 
 ## TODO:
-[ ] multi-player?(might use a server so might have security issues.)
+* Multi-player?(Might use a server so might have security issues.)
 
-[ ] robots.(this is rather easy to achieve since no internet connection is required)
+* Robots.(This is rather easy to achieve since no internet connection is required)
 
-[ ] posionous food(remain dicussing)
+* Posionous food(Remain dicussing)
