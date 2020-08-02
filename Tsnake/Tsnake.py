@@ -17,7 +17,7 @@ if(WINDOW_WIDTH%BLOCK_SIZE!=0):
 MAX_X=WINDOW_HEIGHT//BLOCK_SIZE
 MAX_Y=WINDOW_WIDTH//BLOCK_SIZE
 
-BACKGROUND_IMAGE='pics/background.jpg'
+BACKGROUND_IMAGE='pics/background.png'
 background_image=pygame.image.load(BACKGROUND_IMAGE)
 # size notice: WINDOWS_WIDTH*WINDOWS_HEIGHT
 
