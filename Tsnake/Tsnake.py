@@ -77,7 +77,7 @@ def build():
     global snake,list_direction,head,direction,foods
     screen.blit(background_image,(0,0))
     snake=[(0,0),(0,1),(0,2),(0,3)]
-    list_direction=["03"]*4
+    list_direction=['03']*4
     head=(0,4)
     direction=3
     generate_food()
@@ -98,14 +98,14 @@ def move(op):
     next=[(0,-1),(-1,0),(1,0),(0,1)]
     tmp=(head[0]+next[op][0],head[1]+next[op][1])
     if(tmp[0]>=MAX_X or tmp[0]<0 or tmp[1]>=MAX_Y or tmp[1]<0 or tmp in snake):
-        print("[INFO]: dead")
+        print('[INFO]: dead')
         build()
         return
     head=tmp
     direction=op
     global foods
     if(tmp in foods):
-        print("[INFO]: eat food")
+        print('[INFO]: eat food')
         foods[foods.index(tmp)]=generate_food()
     else:
         del(snake[0])
