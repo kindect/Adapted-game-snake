@@ -1,4 +1,3 @@
-# this is the main program of the snake
 import pygame
 from pygame.locals import *
 from sys import exit
@@ -13,18 +12,12 @@ WINDOW_HEIGHT=480
 FOOD_AMOUNT=3
 POISON_AMOUNT=3
 BLOCK_SIZE=20
-# notice WINDOW_WIDTH%BLOCK_SIZE and WINDOW_HEIGHT must be 0
-if(WINDOW_WIDTH%BLOCK_SIZE!=0):
-    print('[Error]: Bad WINDOW_WIDTH WINDWO_HEIGHT or BLOCK_SIZE')
 MAX_X=WINDOW_HEIGHT//BLOCK_SIZE
 MAX_Y=WINDOW_WIDTH//BLOCK_SIZE
 
 BACKGROUND_IMAGE='pics/background.png'
 background_image=pygame.image.load(BACKGROUND_IMAGE)
-# size notice: WINDOWS_WIDTH*WINDOWS_HEIGHT
 
-
-# size notice BLOCK_SIZE*BLOCK_SIZE
 BODY_IMAGE_01='pics/body/01.png'
 BODY_IMAGE_02='pics/body/02.png'
 BODY_IMAGE_03='pics/body/03.png'
@@ -51,16 +44,7 @@ FOOD_IMAGE='pics/food.png'
 food_image=pygame.image.load(FOOD_IMAGE)
 POISON_IMAGE='pics/poison.png'
 poison_image=pygame.image.load(POISON_IMAGE)
-# x\y 0 1 2 3 4
-# 0
-# 1
-# 2
-# 3
-# 4
 
-# storage: snake list[truple](eg. [(0,0),(1,0),(2,0),(3,0)]) no head
-#          head: (5,0)
-# init when start:
 def print_snake():
     exec('screen.blit(head_image_'+str(direction)+',(head[1]*20,head[0]*20))')
     for food in foods:
@@ -69,7 +53,6 @@ def print_snake():
         screen.blit(poison_image,(posion[1]*20,posion[0]*20))
     for i in range(len(snake)):
         exec('screen.blit(body_image_'+list_direction[i]+',(snake[i][1]*20,snake[i][0]*20))')
-        # screen.blit(body_image_01,(snake[i][1]*20,snake[i][0]*20))
 
 def generate():
     tmp=(randint(0,MAX_X-1),randint(0,MAX_Y-1))
@@ -86,17 +69,14 @@ def build():
     for i in range(POISON_AMOUNT):
         poisons.append(generate())
 
-
-
 def pattern(op,dir):
-    dirp=3-dir # the opposite of dir
+    dirp=3-dir
     return str(min(op,dirp))+str(max(op,dirp))
+
 def move(op):
     global direction
     if(op+direction==3):
-        # oppsite the direction of moving
         return
-    # left(0), up(1), down(2), right(3)
     global head
     snake.append(head)
     list_direction.append(pattern(op,direction))
@@ -115,10 +95,12 @@ def move(op):
     else:
         del(snake[0])
         del(list_direction[0])
+
 def push():
     while True:
         sleep(DELAY)
         move(direction)
+
 def mainloop():
      while(True):
         key_list=pygame.key.get_pressed()
@@ -146,8 +128,9 @@ def mainloop():
         pygame.time.Clock().tick(60)
         pygame.display.update()
 
-
 if __name__=='__main__':
+    if(WINDOW_WIDTH%BLOCK_SIZE!=0):
+        print('[Error]: Bad WINDOW_WIDTH WINDWO_HEIGHT or BLOCK_SIZE')
     maintask=threading.Thread(target=mainloop)
     pushtask=threading.Thread(target=push)
     pygame.init()

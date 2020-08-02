@@ -65,9 +65,9 @@ If you find a bug, please bring up a issue, or better, PR
 ![Low contrast](https://images.gitee.com/uploads/images/2020/0802/150242_ec74553b_6537938.png "Capture.PNG")
 
 ## TODO:
-* [ ] Multi-player?(Might use a server so might have security issues.)
+* [ ] Multi-player(offline)
 
-* [ ] Robots.(This is rather easy to achieve since no internet connection is required)
+* [ ] Robots.
 
 * [x] Posionous food
 
