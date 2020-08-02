@@ -7,6 +7,9 @@ Futher info about the code can be found in wiki.
 
 Dependencies: Pygame sys time random threading
 
+## Pictures on Windows:
+![1](https://images.gitee.com/uploads/images/2020/0802/144029_0eec6591_6537938.png "Screenshot (4).png")
+![2](https://images.gitee.com/uploads/images/2020/0802/144046_36e1e283_6537938.png "Screenshot (5).png")
 ## Latest Release:
 https://gitee.com/kindect/Adapted-game-snake/releases
 
