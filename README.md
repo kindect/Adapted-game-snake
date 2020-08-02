@@ -46,16 +46,20 @@ Default refresh rate is 60fps.(can change it)
 
 Multi-food(default is 3)
 
+Multi-poisonous-food(default is 3)
+
 ## Bugs:
 If you find a bug, please bring up a issue, or better, PR
-* The release version sometimes bring up a runtime error that the food in foods is a NoneType and raise a error(need to reproduce)
+* [x] ~~The release version sometimes bring up a runtime error that the food in foods is a NoneType and raise a error(need to reproduce)~~
+
+***Fixed in 1.0.1-alpha***
 
 ## TODO:
 * [ ] Multi-player?(Might use a server so might have security issues.)
 
 * [ ] Robots.(This is rather easy to achieve since no internet connection is required)
 
-* [ ] Posionous food(Remain dicussing)
+* [x] Posionous food
 
 * [ ] Score showing
 

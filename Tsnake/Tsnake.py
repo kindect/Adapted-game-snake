@@ -10,6 +10,8 @@ DELAY=0.1
 delay=DELAY/10
 WINDOW_WIDTH=640
 WINDOW_HEIGHT=480
+FOOD_AMOUNT=3
+POISON_AMOUNT=3
 BLOCK_SIZE=20
 # notice WINDOW_WIDTH%BLOCK_SIZE and WINDOW_HEIGHT must be 0
 if(WINDOW_WIDTH%BLOCK_SIZE!=0):
@@ -47,6 +49,8 @@ head_image_3=pygame.image.load(HEAD_IMAGE_3)
 
 FOOD_IMAGE='pics/food.png'
 food_image=pygame.image.load(FOOD_IMAGE)
+POISON_IMAGE='pics/poison.png'
+poison_image=pygame.image.load(POISON_IMAGE)
 # x\y 0 1 2 3 4
 # 0
 # 1
@@ -61,27 +65,28 @@ def print_snake():
     exec('screen.blit(head_image_'+str(direction)+',(head[1]*20,head[0]*20))')
     for food in foods:
         screen.blit(food_image,(food[1]*20,food[0]*20))
+    for posion in poisons:
+        screen.blit(poison_image,(posion[1]*20,posion[0]*20))
     for i in range(len(snake)):
         exec('screen.blit(body_image_'+list_direction[i]+',(snake[i][1]*20,snake[i][0]*20))')
         # screen.blit(body_image_01,(snake[i][1]*20,snake[i][0]*20))
 
-def generate_food():
+def generate():
     tmp=(randint(0,MAX_X-1),randint(0,MAX_Y-1))
-    if(tmp in snake or tmp==head):
-        generate_food()
-        return
-    print('[INFO]: generate food at',tmp)
+    if(tmp in snake or tmp==head or tmp in foods or tmp in poisons):
+        generate()
     return tmp
 
 def build():
-    global snake,list_direction,head,direction,foods
+    global snake,list_direction,head,direction,foods,poisons
     screen.blit(background_image,(0,0))
-    snake=[(0,0),(0,1),(0,2),(0,3)]
-    list_direction=['03']*4
-    head=(0,4)
-    direction=3
-    generate_food()
-    foods=[generate_food(),generate_food(),generate_food()]
+    snake,list_direction,head,direction,foods,poisons=[(0,0),(0,1),(0,2),(0,3)],['03']*4,(0,4),3,[],[]
+    for i in range(FOOD_AMOUNT):
+        foods.append(generate())
+    for i in range(POISON_AMOUNT):
+        poisons.append(generate())
+
+
 
 def pattern(op,dir):
     dirp=3-dir # the opposite of dir
@@ -97,7 +102,7 @@ def move(op):
     list_direction.append(pattern(op,direction))
     next=[(0,-1),(-1,0),(1,0),(0,1)]
     tmp=(head[0]+next[op][0],head[1]+next[op][1])
-    if(tmp[0]>=MAX_X or tmp[0]<0 or tmp[1]>=MAX_Y or tmp[1]<0 or tmp in snake):
+    if(tmp[0]>=MAX_X or tmp[0]<0 or tmp[1]>=MAX_Y or tmp[1]<0 or tmp in snake or tmp in poisons):
         print('[INFO]: dead')
         build()
         return
@@ -106,7 +111,7 @@ def move(op):
     global foods
     if(tmp in foods):
         print('[INFO]: eat food')
-        foods[foods.index(tmp)]=generate_food()
+        foods[foods.index(tmp)]=generate()
     else:
         del(snake[0])
         del(list_direction[0])
