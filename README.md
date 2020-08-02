@@ -9,8 +9,11 @@ Dependencies: Pygame sys time random threading
 
 ## Latest Release:
 https://gitee.com/kindect/Adapted-game-snake/releases
+
 also on github:
+
 https://github.com/kindect/Adapted-game-snake/releases
+
 Notice that the Github repo is forked from Gitee, so might have delay, check Gitee for the newest version
 
 Only provide release in Windows Platform, other platform see Build:
@@ -38,7 +41,9 @@ Only provide release in Windows Platform, other platform see Build:
 
 ## Features by now:
 Regular snake features: moving around.(using module threading)
+
 default refresh rate is 60fps.(can change it)
+
 multi-food(default is 3)
 
 ## Bugs:
@@ -47,5 +52,7 @@ If you find a bug, please bring up a issue, or better, PR
 
 ## TODO:
 [ ] multi-player?(might use a server so might have security issues.)
+
 [ ] robots.(this is rather easy to achieve since no internet connection is required)
+
 [ ] posionous food(remain dicussing)
