@@ -56,3 +56,7 @@ If you find a bug, please bring up a issue, or better, PR
 * Robots.(This is rather easy to achieve since no internet connection is required)
 
 * Posionous food(Remain dicussing)
+
+* Score showing
+
+* dead screen
