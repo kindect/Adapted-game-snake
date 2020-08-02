@@ -61,6 +61,8 @@ If you find a bug, please bring up a issue, or better, PR
 
 ***Fixed in 1.0.1-alpha***
 
+* [] Low contrast in posionous food
+
 ## TODO:
 * [ ] Multi-player?(Might use a server so might have security issues.)
 
