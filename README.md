@@ -51,12 +51,12 @@ If you find a bug, please bring up a issue, or better, PR
 * The release version sometimes bring up a runtime error that the food in foods is a NoneType and raise a error(need to reproduce)
 
 ## TODO:
-* Multi-player?(Might use a server so might have security issues.)
+* [ ] Multi-player?(Might use a server so might have security issues.)
 
-* Robots.(This is rather easy to achieve since no internet connection is required)
+* [ ] Robots.(This is rather easy to achieve since no internet connection is required)
 
-* Posionous food(Remain dicussing)
+* [ ] Posionous food(Remain dicussing)
 
-* Score showing
+* [ ] Score showing
 
-* dead screen
+* [ ] dead screen
