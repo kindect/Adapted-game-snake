@@ -24,12 +24,12 @@ MAX_Y=WINDOW_WIDTH//BLOCK_SIZE
 background_image=pygame.image.load('pics/background.png')
 
 # BLOCK_SIZE*BLOCK_SIZE pixel
-body_image_1=pygame.image.load(B'pics/body/1.png')
+body_image_1=pygame.image.load('pics/body/1.png')
 body_image_2=pygame.image.load('pics/body/2.png')
 body_image_3=pygame.image.load('pics/body/3.png')
 body_image_12=pygame.image.load('pics/body/12.png')
 body_image_13=pygame.image.load('pics/body/13.png')
-body_image_23=pygame.image.load'pics/body/23.png')
+body_image_23=pygame.image.load('pics/body/23.png')
 
 head_image_0=pygame.image.load('pics/head/0.png')
 head_image_1=pygame.image.load('pics/head/1.png')
