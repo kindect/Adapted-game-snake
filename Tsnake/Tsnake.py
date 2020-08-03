@@ -6,12 +6,13 @@ from random import randint
 import threading
 
 DELAY=0.1 # time before auto move(in sec, float)
-WINDOW_WIDTH=640 # must be 20*n
+WINDOW_WIDTH=640 # must be BLOCK_SIZE*n
 WINDOW_HEIGHT=480 # same.
 FOOD_AMOUNT=3 # int >=1
 POISON_AMOUNT=3 # int >=0
-MAX_X=WINDOW_HEIGHT//20 #
-MAX_Y=WINDOW_WIDTH//20
+BLOCK_SIZE=20
+MAX_X=WINDOW_HEIGHT//BLOCK_SIZE #
+MAX_Y=WINDOW_WIDTH//BLOCK_SIZE
 
 # x\y 0 .. MAX_Y
 # 0
@@ -19,45 +20,34 @@ MAX_Y=WINDOW_WIDTH//20
 # .
 # .
 # MAX_X
+# WINDOW_WIDTH*WINDOW_HEIGHT pixels
+background_image=pygame.image.load('pics/background.png')
 
-BACKGROUND_IMAGE='pics/background.png'
-background_image=pygame.image.load(BACKGROUND_IMAGE)
+# BLOCK_SIZE*BLOCK_SIZE pixel
+body_image_1=pygame.image.load(B'pics/body/1.png')
+body_image_2=pygame.image.load('pics/body/2.png')
+body_image_3=pygame.image.load('pics/body/3.png')
+body_image_12=pygame.image.load('pics/body/12.png')
+body_image_13=pygame.image.load('pics/body/13.png')
+body_image_23=pygame.image.load'pics/body/23.png')
 
-BODY_IMAGE_1='pics/body/1.png' # 20*20 pixel
-BODY_IMAGE_2='pics/body/2.png'
-BODY_IMAGE_3='pics/body/3.png'
-BODY_IMAGE_12='pics/body/12.png'
-BODY_IMAGE_13='pics/body/13.png'
-BODY_IMAGE_23='pics/body/23.png'
-body_image_1=pygame.image.load(BODY_IMAGE_1)
-body_image_2=pygame.image.load(BODY_IMAGE_2)
-body_image_3=pygame.image.load(BODY_IMAGE_3)
-body_image_12=pygame.image.load(BODY_IMAGE_12)
-body_image_13=pygame.image.load(BODY_IMAGE_13)
-body_image_23=pygame.image.load(BODY_IMAGE_23)
+head_image_0=pygame.image.load('pics/head/0.png')
+head_image_1=pygame.image.load('pics/head/1.png')
+head_image_2=pygame.image.load('pics/head/2.png')
+head_image_3=pygame.image.load('pics/head/3.png')
 
-HEAD_IMAGE_0='pics/head/0.png'
-HEAD_IMAGE_1='pics/head/1.png'
-HEAD_IMAGE_2='pics/head/2.png'
-HEAD_IMAGE_3='pics/head/3.png'
-head_image_0=pygame.image.load(HEAD_IMAGE_0)
-head_image_1=pygame.image.load(HEAD_IMAGE_1)
-head_image_2=pygame.image.load(HEAD_IMAGE_2)
-head_image_3=pygame.image.load(HEAD_IMAGE_3)
+food_image=pygame.image.load('pics/food.png')
 
-FOOD_IMAGE='pics/food.png'
-food_image=pygame.image.load(FOOD_IMAGE)
-POISON_IMAGE='pics/poison.png'
-poison_image=pygame.image.load(POISON_IMAGE)
+poison_image=pygame.image.load('pics/poison.png')
 
 def print_snake():
-    exec('screen.blit(head_image_'+str(direction)+',(head[1]*20,head[0]*20))')
+    exec('screen.blit(head_image_'+str(direction)+',(head[1]*BLOCK_SIZE,head[0]*BLOCK_SIZE))')
     for food in foods:
-        screen.blit(food_image,(food[1]*20,food[0]*20))
+        screen.blit(food_image,(food[1]*BLOCK_SIZE,food[0]*BLOCK_SIZE))
     for posion in poisons:
-        screen.blit(poison_image,(posion[1]*20,posion[0]*20))
+        screen.blit(poison_image,(posion[1]*BLOCK_SIZE,posion[0]*BLOCK_SIZE))
     for i in range(len(snake)):
-        exec('screen.blit(body_image_'+str(list_direction[i])+',(snake[i][1]*20,snake[i][0]*20))')
+        exec('screen.blit(body_image_'+str(list_direction[i])+',(snake[i][1]*BLOCK_SIZE,snake[i][0]*BLOCK_SIZE))')
 
 def generate():
     tmp=(randint(0,MAX_X-1),randint(0,MAX_Y-1))
@@ -134,7 +124,7 @@ def mainloop():
         pygame.display.update()
 
 if __name__=='__main__':
-    if(WINDOW_WIDTH%20!=0):
+    if(WINDOW_WIDTH%BLOCK_SIZE!=0):
         print('[Error]: Bad WINDOW_WIDTH WINDWO_HEIGHT')
     maintask=threading.Thread(target=mainloop)
     pushtask=threading.Thread(target=push)
