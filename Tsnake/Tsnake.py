@@ -18,15 +18,15 @@ MAX_Y=WINDOW_WIDTH//BLOCK_SIZE
 BACKGROUND_IMAGE='pics/background.png'
 background_image=pygame.image.load(BACKGROUND_IMAGE)
 
-BODY_IMAGE_01='pics/body/01.png'
-BODY_IMAGE_02='pics/body/02.png'
-BODY_IMAGE_03='pics/body/03.png'
+BODY_IMAGE_01='pics/body/1.png'
+BODY_IMAGE_02='pics/body/2.png'
+BODY_IMAGE_03='pics/body/3.png'
 BODY_IMAGE_12='pics/body/12.png'
 BODY_IMAGE_13='pics/body/13.png'
 BODY_IMAGE_23='pics/body/23.png'
-body_image_01=pygame.image.load(BODY_IMAGE_01)
-body_image_02=pygame.image.load(BODY_IMAGE_02)
-body_image_03=pygame.image.load(BODY_IMAGE_03)
+body_image_1=pygame.image.load(BODY_IMAGE_01)
+body_image_2=pygame.image.load(BODY_IMAGE_02)
+body_image_3=pygame.image.load(BODY_IMAGE_03)
 body_image_12=pygame.image.load(BODY_IMAGE_12)
 body_image_13=pygame.image.load(BODY_IMAGE_13)
 body_image_23=pygame.image.load(BODY_IMAGE_23)
@@ -52,7 +52,7 @@ def print_snake():
     for posion in poisons:
         screen.blit(poison_image,(posion[1]*20,posion[0]*20))
     for i in range(len(snake)):
-        exec('screen.blit(body_image_'+list_direction[i]+',(snake[i][1]*20,snake[i][0]*20))')
+        exec('screen.blit(body_image_'+str(list_direction[i])+',(snake[i][1]*20,snake[i][0]*20))')
 
 def generate():
     tmp=(randint(0,MAX_X-1),randint(0,MAX_Y-1))
@@ -63,7 +63,7 @@ def generate():
 def build():
     global snake,list_direction,head,direction,foods,poisons
     screen.blit(background_image,(0,0))
-    snake,list_direction,head,direction,foods,poisons=[(0,0),(0,1),(0,2),(0,3)],['03']*4,(0,4),3,[],[]
+    snake,list_direction,head,direction,foods,poisons=[(0,0),(0,1),(0,2),(0,3)],[3]*4,(0,4),3,[],[]
     for i in range(FOOD_AMOUNT):
         foods.append(generate())
     for i in range(POISON_AMOUNT):
@@ -71,7 +71,7 @@ def build():
 
 def pattern(op,dir):
     dirp=3-dir
-    return str(min(op,dirp))+str(max(op,dirp))
+    return min(op,dirp)*10+max(op,dirp)
 
 def move(op):
     global direction
