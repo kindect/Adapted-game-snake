@@ -5,28 +5,33 @@ from time import sleep
 from random import randint
 import threading
 
-DELAY=0.1
-delay=DELAY/10
-WINDOW_WIDTH=640
-WINDOW_HEIGHT=480
-FOOD_AMOUNT=3
-POISON_AMOUNT=3
-BLOCK_SIZE=20
-MAX_X=WINDOW_HEIGHT//BLOCK_SIZE
-MAX_Y=WINDOW_WIDTH//BLOCK_SIZE
+DELAY=0.1 # time before auto move(in sec, float)
+WINDOW_WIDTH=640 # must be 20*n
+WINDOW_HEIGHT=480 # same.
+FOOD_AMOUNT=3 # int >=1
+POISON_AMOUNT=3 # int >=0
+MAX_X=WINDOW_HEIGHT//20 #
+MAX_Y=WINDOW_WIDTH//20
+
+# x\y 0 .. MAX_Y
+# 0
+# 1
+# .
+# .
+# MAX_X
 
 BACKGROUND_IMAGE='pics/background.png'
 background_image=pygame.image.load(BACKGROUND_IMAGE)
 
-BODY_IMAGE_01='pics/body/1.png'
-BODY_IMAGE_02='pics/body/2.png'
-BODY_IMAGE_03='pics/body/3.png'
+BODY_IMAGE_1='pics/body/1.png' # 20*20 pixel
+BODY_IMAGE_2='pics/body/2.png'
+BODY_IMAGE_3='pics/body/3.png'
 BODY_IMAGE_12='pics/body/12.png'
 BODY_IMAGE_13='pics/body/13.png'
 BODY_IMAGE_23='pics/body/23.png'
-body_image_1=pygame.image.load(BODY_IMAGE_01)
-body_image_2=pygame.image.load(BODY_IMAGE_02)
-body_image_3=pygame.image.load(BODY_IMAGE_03)
+body_image_1=pygame.image.load(BODY_IMAGE_1)
+body_image_2=pygame.image.load(BODY_IMAGE_2)
+body_image_3=pygame.image.load(BODY_IMAGE_3)
 body_image_12=pygame.image.load(BODY_IMAGE_12)
 body_image_13=pygame.image.load(BODY_IMAGE_13)
 body_image_23=pygame.image.load(BODY_IMAGE_23)
@@ -129,8 +134,8 @@ def mainloop():
         pygame.display.update()
 
 if __name__=='__main__':
-    if(WINDOW_WIDTH%BLOCK_SIZE!=0):
-        print('[Error]: Bad WINDOW_WIDTH WINDWO_HEIGHT or BLOCK_SIZE')
+    if(WINDOW_WIDTH%20!=0):
+        print('[Error]: Bad WINDOW_WIDTH WINDWO_HEIGHT')
     maintask=threading.Thread(target=mainloop)
     pushtask=threading.Thread(target=push)
     pygame.init()
