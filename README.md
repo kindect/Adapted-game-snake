@@ -40,12 +40,19 @@ https://github.com/kindect/Adapted-game-snake/releases
 
 ## 目前的功能
 > 实现方法可参考wiki, 图片可在这里下载:
+
 ![1](https://gitee.com/kindect/Adapted-game-snake/blob/master/Tsnake/pics/body/1.png)
+
 ![2](https://gitee.com/kindect/Adapted-game-snake/blob/master/Tsnake/pics/body/2.png)
+
 ![3](https://gitee.com/kindect/Adapted-game-snake/blob/master/Tsnake/pics/body/3.png)
+
 ![12](https://gitee.com/kindect/Adapted-game-snake/blob/master/Tsnake/pics/body/12.png)
+
 ![13](https://gitee.com/kindect/Adapted-game-snake/blob/master/Tsnake/pics/body/13.png)
+
 ![23](https://gitee.com/kindect/Adapted-game-snake/blob/master/Tsnake/pics/body/23.png)
+
 1. 丝滑的移动(不再是方块)
 2. 默认刷新频率60fps(可以更改)
 3. 多食物(默认是3个)
