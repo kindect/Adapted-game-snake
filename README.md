@@ -7,6 +7,8 @@
 
 依赖: Pygame sys time random threading
 
+注意 当前版本并不稳定 release都是稳定的
+
 ## 在Windows上运行情况:
 ![展示图片1](https://images.gitee.com/uploads/images/2020/0802/144029_0eec6591_6537938.png)
 ![展示图片2](https://images.gitee.com/uploads/images/2020/0802/144046_36e1e283_6537938.png)
