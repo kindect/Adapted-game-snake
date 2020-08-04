@@ -40,61 +40,75 @@ food_image=pygame.image.load('pics/food.png')
 
 poison_image=pygame.image.load('pics/poison.png')
 
-def print_snake():
-    exec('screen.blit(head_image_'+str(direction)+',(head[1]*BLOCK_SIZE,head[0]*BLOCK_SIZE))')
-    for food in foods:
-        screen.blit(food_image,(food[1]*BLOCK_SIZE,food[0]*BLOCK_SIZE))
-    for posion in poisons:
-        screen.blit(poison_image,(posion[1]*BLOCK_SIZE,posion[0]*BLOCK_SIZE))
-    for i in range(len(snake)):
-        exec('screen.blit(body_image_'+str(list_direction[i])+',(snake[i][1]*BLOCK_SIZE,snake[i][0]*BLOCK_SIZE))')
-
-def generate():
-    tmp=(randint(0,MAX_X-1),randint(0,MAX_Y-1))
-    if(tmp in snake or tmp==head or tmp in foods or tmp in poisons):
-        generate()
-    return tmp
-
-def build():
-    global snake,list_direction,head,direction,foods,poisons
-    screen.blit(background_image,(0,0))
-    snake,list_direction,head,direction,foods,poisons=[(0,0),(0,1),(0,2),(0,3)],[3]*4,(0,4),3,[],[]
-    for i in range(FOOD_AMOUNT):
-        foods.append(generate())
-    for i in range(POISON_AMOUNT):
-        poisons.append(generate())
-
 def pattern(op,dir):
     dirp=3-dir
     return min(op,dirp)*10+max(op,dirp)
 
-def move(op):
-    global direction
-    if(op+direction==3):
-        return
-    global head
-    snake.append(head)
-    list_direction.append(pattern(op,direction))
-    next=[(0,-1),(-1,0),(1,0),(0,1)]
-    tmp=(head[0]+next[op][0],head[1]+next[op][1])
-    if(tmp[0]>=MAX_X or tmp[0]<0 or tmp[1]>=MAX_Y or tmp[1]<0 or tmp in snake or tmp in poisons):
-        print('[INFO]: dead')
-        build()
-        return
-    head=tmp
-    direction=op
-    global foods
-    if(tmp in foods):
-        print('[INFO]: eat food')
-        foods[foods.index(tmp)]=generate()
-    else:
-        del(snake[0])
-        del(list_direction[0])
+class snake:
+    def __init__(self,body=[(0,0),(0,1),(0,2),(0,3)],head=(0,4),directions=[3]*4,head_direction=3):
+        self.body=body
+        self.head=head
+        self.directions=directions
+        self.head_direction=head_direction
+        self.print()
+        threading.Thread(target=self.push).start()
+        
+    def print(self):
+        exec('screen.blit(head_image_'+str(self.head_direction)+',(self.head[1]*BLOCK_SIZE,self.head[0]*BLOCK_SIZE))')
+        for i in range(len(self.body)):
+            exec('screen.blit(body_image_'+str(self.directions[i])+',(self.body[i][1]*BLOCK_SIZE,self.body[i][0]*BLOCK_SIZE))')
+    def move(self,direction):
+        if(direction+self.head_direction==3):
+            return
+        self.body.append(self.head)
+        self.directions.append(pattern(direction,self.head_direction))
+        next=[(0,-1),(-1,0),(1,0),(0,1)]
+        tmp=(self.head[0]+next[direction][0],self.head[1]+next[direction][1])
+        if(tmp[0]>=MAX_X or tmp[0]<0 or tmp[1]>=MAX_Y or tmp[1]<0 or tmp in self.body or tmp in poisons):
+            print('[INFO]: dead')
+            self.print()
+            sleep(DELAY)
+            self.__init__()
+        self.head=tmp
+        self.head_direction=direction
+        if(self.head in foods):
+            print('[INFO]: eat food')
+            if(len(foods)<=3):
+                foods[foods.index(self.head)]=generate()
+            else:
+                del(foods[foods.index(self.head)])
+        else:
+            del(self.body[0])
+            del(self.directions[0])
+    def push(self):
+        while True:
+            sleep(DELAY)
+            self.move(self.head_direction)
 
-def push():
-    while True:
-        sleep(DELAY)
-        move(direction)
+class game:
+    def __init__(self):
+        global user,foods,poisons
+        screen.blit(background_image,(0,0))
+        user=snake()
+        foods=[]
+        poisons=[]
+        for i in range(FOOD_AMOUNT):
+            foods.append(generate())
+        for i in range(POISON_AMOUNT):
+            poisons.append(generate())
+    def print(self):
+        user.print()
+        for food in foods:
+            screen.blit(food_image,(food[1]*BLOCK_SIZE,food[0]*BLOCK_SIZE))
+        for poison in poisons:
+            screen.blit(poison_image,(poison[1]*BLOCK_SIZE,poison[0]*BLOCK_SIZE))
+
+
+def generate():
+    tmp=(randint(0,MAX_X-1),randint(0,MAX_Y-1))
+    if(tmp in user.body or tmp==user.head or tmp in foods or tmp in poisons):
+        generate()
+    return tmp
 
 def mainloop():
      while(True):
@@ -107,31 +121,29 @@ def mainloop():
             if(event.type==KEYDOWN):
                 if(event.key==K_LEFT or key_list[K_LEFT]):
                     print('[INFO]: left pressed')
-                    move(0)
+                    user.move(0)
                 if(event.key==K_RIGHT or key_list[K_RIGHT]):
                     print('[INFO]: right pressed')
-                    move(3)
+                    user.move(3)
                 if(event.key==K_UP or key_list[K_UP]):
                     print('[INFO]: up pressed')
-                    move(1)
+                    user.move(1)
                 if(event.key==K_DOWN or key_list[K_DOWN]):
                     print('[INFO]: down pressed')
-                    move(2)
+                    user.move(2)
         screen.fill((255,255,255))
         screen.blit(background_image,(0,0))
-        print_snake()
+        ngame.print()
         pygame.time.Clock().tick(60)
         pygame.display.update()
 
 if __name__=='__main__':
     if(WINDOW_WIDTH%BLOCK_SIZE!=0):
         print('[Error]: Bad WINDOW_WIDTH WINDWO_HEIGHT')
-    maintask=threading.Thread(target=mainloop)
-    pushtask=threading.Thread(target=push)
     pygame.init()
     pygame.font.init()
     screen=pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT),0,32)
     pygame.display.set_caption('Tsnake')
-    build()
-    pushtask.start()
+    ngame=game()
+    maintask=threading.Thread(target=mainloop)
     maintask.run()

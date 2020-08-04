@@ -37,7 +37,7 @@
  [],
  False,
  False,
- 1596437465,
+ 1596536010,
  [('run.exe',
    'c:\\users\\kindect\\appdata\\local\\programs\\python\\python37\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit\\run.exe',
    'EXECUTABLE')])
