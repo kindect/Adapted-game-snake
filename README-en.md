@@ -7,6 +7,12 @@ Futher info about the code can be found in wiki.
 
 Dependencies: Pygame sys time random threading
 
+~~~Current version is not stable, go to release for stable version~~~
+
+## This is the end of supporting PyInstaller, All the users must exec using runtime
+
+Mac OS tested, but installing pygame is so much trouble especially in Big Sur, so still not recommended
+
 ## Pictures on Windows:
 ![1](https://images.gitee.com/uploads/images/2020/0802/144029_0eec6591_6537938.png "Screenshot (4).png")
 ![2](https://images.gitee.com/uploads/images/2020/0802/144046_36e1e283_6537938.png "Screenshot (5).png")
@@ -60,12 +66,12 @@ If you find a bug, please bring up a issue, or better, PR
 ![Low contrast](https://images.gitee.com/uploads/images/2020/0802/150242_ec74553b_6537938.png "Capture.PNG")
 
 ## TODO:
-* [ ] Multi-player(offline)
+* [ ] ~~~Multi-player(offline)~~~(abondoned)
 
 * [ ] Robots.
 
 * [x] Posionous food
 
-* [ ] Score showing
+* [x] Score showing
 
-* [ ] dead screen
+* [x] dead screen(with bug)

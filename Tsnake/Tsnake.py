@@ -1,18 +1,32 @@
+# Author kindect@github/gitee
+# Mail kindect@163.com
+# Copyright 2020. All rights reserved.
+# Using MulanPSL-2 as lisence, which can be seen here:https://license.coscl.org.cn/MulanPSL2
+
+# offical repo address:https://gitee.com/kindect/Adapted-game-snake
+
+# if you want to make a project using this file, keep the author notice here
+
+# import part
 import pygame
 from pygame.locals import *
 from time import sleep
 from random import randint
 import threading
 
+pygame.init()
+pygame.font.init()
+
+# Global variable
 DELAY = 0.1  # time before auto move(in sec, float)
 # I suggest when you DEBUG, set the value to 0.5 or larger(depending on your speed :D), when release, set it back
 WINDOW_WIDTH = 640  # must be BLOCK_SIZE*n
 WINDOW_HEIGHT = 480  # same.
 FOOD_AMOUNT = 3  # int >=1
 POISON_AMOUNT = 3  # int >=0
-BLOCK_SIZE = 20
-MAX_X = WINDOW_HEIGHT // BLOCK_SIZE  #
-MAX_Y = WINDOW_WIDTH // BLOCK_SIZE
+BLOCK_SIZE = 20 # other size is OK, but not recommended(unless you have a extremely low resolution screen)
+MAX_X = WINDOW_HEIGHT // BLOCK_SIZE # MAX of x the program can reach
+MAX_Y = WINDOW_WIDTH // BLOCK_SIZE # same.
 
 # x\y 0 .. MAX_Y
 # 0
@@ -20,26 +34,31 @@ MAX_Y = WINDOW_WIDTH // BLOCK_SIZE
 # .
 # .
 # MAX_X
+
 # WINDOW_WIDTH*WINDOW_HEIGHT pixels
-background_image = pygame.image.load('pics/background.png')
-dead_image=pygame.image.load('pics/dead.png')
+background_image = pygame.image.load('resource/background.png')
+
+# 3/4 WINDOW_WIDTH * 1/4 WIDOW_HIGHT
+dead_image=pygame.image.load('resource/dead.png')
 
 # BLOCK_SIZE*BLOCK_SIZE pixel
-body_image_1 = pygame.image.load('pics/body/1.png')
-body_image_2 = pygame.image.load('pics/body/2.png')
-body_image_3 = pygame.image.load('pics/body/3.png')
-body_image_12 = pygame.image.load('pics/body/12.png')
-body_image_13 = pygame.image.load('pics/body/13.png')
-body_image_23 = pygame.image.load('pics/body/23.png')
+body_image_1 = pygame.image.load('resource/body/1.png')
+body_image_2 = pygame.image.load('resource/body/2.png')
+body_image_3 = pygame.image.load('resource/body/3.png')
+body_image_12 = pygame.image.load('resource/body/12.png')
+body_image_13 = pygame.image.load('resource/body/13.png')
+body_image_23 = pygame.image.load('resource/body/23.png')
 
-head_image_0 = pygame.image.load('pics/head/0.png')
-head_image_1 = pygame.image.load('pics/head/1.png')
-head_image_2 = pygame.image.load('pics/head/2.png')
-head_image_3 = pygame.image.load('pics/head/3.png')
+head_image_0 = pygame.image.load('resource/head/0.png')
+head_image_1 = pygame.image.load('resource/head/1.png')
+head_image_2 = pygame.image.load('resource/head/2.png')
+head_image_3 = pygame.image.load('resource/head/3.png')
 
-food_image = pygame.image.load('pics/food.png')
+food_image = pygame.image.load('resource/food.png')
 
-poison_image = pygame.image.load('pics/poison.png')
+poison_image = pygame.image.load('resource/poison.png')
+
+font = pygame.font.SysFont('resource/Chalkboard.ttc', 30)
 
 
 def pattern(op, direction):
@@ -50,7 +69,6 @@ def pattern(op, direction):
 # noinspection PyGlobalUndefined
 class Snake:
     def __init__(self, body=None, head=None, directions=None, head_direction=None):
-        self.run = False
         if directions is None:
             directions = [3] * 4
         if head is None:
@@ -63,10 +81,10 @@ class Snake:
         self.head = head
         self.directions = directions
         self.head_direction = head_direction
-        self.print()
         self.run = True
+        threading.Thread(target=self.push).start()
 
-    def print(self):
+    def print_p(self):
         exec('screen.blit(head_image_' + str(
             self.head_direction) + ',(self.head[1]*BLOCK_SIZE,self.head[0]*BLOCK_SIZE))')
         for i in range(len(self.body)):
@@ -80,9 +98,8 @@ class Snake:
         tmp = (self.head[0] + next_p[direction][0], self.head[1] + next_p[direction][1])
         if tmp[0] >= MAX_X or tmp[0] < 0 or tmp[1] >= MAX_Y or tmp[1] < 0 or tmp in self.body or tmp in poisons:
             print('[INFO]: dead')
-            self.run = False
-            main_task._stop()
-            screen.blit(dead_image, (80, 0))
+            run = False
+            screen.blit(dead_image, (WINDOW_WIDTH/8, 0))
             sleep(1)
             for event in pygame.event.get():
                 if event.key==K_y:
@@ -106,37 +123,25 @@ class Snake:
             del (self.body[0])
 
     def push(self):
-        while self.run:
+        while run:
             sleep(DELAY)
             self.move(self.head_direction)
 
 
 class Game:
-    def __init__(self):
-        # noinspection PyGlobalUndefined
-        global user, foods, poisons
-        poisons = []
+    def print_p(self):
+        screen.fill((255, 255, 255))
         screen.blit(background_image, (0, 0))
-        user = Snake()
-        threading.Thread(target=user.push).start()
-        foods = []
-        poisons = []
-        for i in range(FOOD_AMOUNT):
-            foods.append(generate())
-        for i in range(POISON_AMOUNT):
-            poisons.append(generate())
-
-    @staticmethod
-    def print():
-        user.print()
+        user.print_p()
         for food in foods:
             screen.blit(food_image, (food[1] * BLOCK_SIZE, food[0] * BLOCK_SIZE))
         for poison in poisons:
             screen.blit(poison_image, (poison[1] * BLOCK_SIZE, poison[0] * BLOCK_SIZE))
         screen.blit(font.render(str((len(user.body) + 1) * 5), False, (255, 200, 10)), (10, 10))
-
+        pygame.time.Clock().tick(60)
+        pygame.display.update()
     def mainloop(self):
-        while user.run:
+        while run:
             key_list = pygame.key.get_pressed()
             for event in pygame.event.get():
                 # event queue
@@ -156,12 +161,7 @@ class Game:
                     if event.key == K_DOWN or key_list[K_DOWN]:
                         print('[INFO]: down pressed')
                         user.move(2)
-            screen.fill((255, 255, 255))
-            screen.blit(background_image, (0, 0))
-            self.print()
-            pygame.time.Clock().tick(60)
-            pygame.display.update()
-
+            self.print_p()
 
 def generate():
     tmp = (randint(0, MAX_X - 1), randint(0, MAX_Y - 1))
@@ -171,13 +171,23 @@ def generate():
 
 
 if __name__ == '__main__':
+    # perform a check
     if WINDOW_WIDTH % BLOCK_SIZE != 0:
         print('[Error]: Bad WINDOW_WIDTH WINDOW_HEIGHT')
-    pygame.init()
-    pygame.font.init()
+    
+    # for pygame to init itself
+    screen = pygame.display.set_mode((1,1),0)
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
-    font = pygame.font.SysFont('microsoft Yahei', 30)
     pygame.display.set_caption('T_snake')
+    
+    # variables for the whole program
+    foods = []
+    poisons = []
+    run=True
+    user=Snake()
     game_p = Game()
-    main_task = threading.Thread(target=game_p.mainloop)
-    main_task.run()
+    for i in range(FOOD_AMOUNT):
+        foods.append(generate())
+    for i in range(POISON_AMOUNT):
+        poisons.append(generate())
+    game_p.mainloop()

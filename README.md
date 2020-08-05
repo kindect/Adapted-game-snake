@@ -9,6 +9,10 @@
 
 注意 当前版本并不稳定 release都是稳定的
 
+## 对Pyinstaller的支持走到尽头, 所有用户蛮烦runtime
+
+Mac OS 已通过测试, 但是尤其是在Big Sur上安装编译Pygame太困难了, 所以不推荐
+
 ## 在Windows上运行情况:
 ![展示图片1](https://images.gitee.com/uploads/images/2020/0802/144029_0eec6591_6537938.png)
 ![展示图片2](https://images.gitee.com/uploads/images/2020/0802/144046_36e1e283_6537938.png)
@@ -59,8 +63,12 @@ Just to show a bit
 ![低分辨率](https://images.gitee.com/uploads/images/2020/0802/150242_ec74553b_6537938.png)
 
 ## TODO:
-* [ ] 多人模式(脱机)
+* [ ] ~~~多人模式(脱机)~~~(已抛弃该方案)
+
 * [ ] 机器人
+
 * [x] 毒药
-* [ ] 显示分数
-* [ ] 死亡显示
+
+* [x] 显示分数
+
+* [x] 死亡显示(with bugs)
