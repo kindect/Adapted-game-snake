@@ -51,8 +51,7 @@ class snake:
         self.directions=directions
         self.head_direction=head_direction
         self.print()
-        threading.Thread(target=self.push).start()
-        
+        self.run=True
     def print(self):
         exec('screen.blit(head_image_'+str(self.head_direction)+',(self.head[1]*BLOCK_SIZE,self.head[0]*BLOCK_SIZE))')
         for i in range(len(self.body)):
@@ -66,22 +65,25 @@ class snake:
         tmp=(self.head[0]+next[direction][0],self.head[1]+next[direction][1])
         if(tmp[0]>=MAX_X or tmp[0]<0 or tmp[1]>=MAX_Y or tmp[1]<0 or tmp in self.body or tmp in poisons):
             print('[INFO]: dead')
-            self.print()
-            sleep(DELAY)
+            self.run=False
             self.__init__()
+            return
         self.head=tmp
         self.head_direction=direction
-        if(self.head in foods):
-            print('[INFO]: eat food')
-            if(len(foods)<=3):
-                foods[foods.index(self.head)]=generate()
-            else:
-                del(foods[foods.index(self.head)])
-        else:
+        flag=False
+        global foods
+        for i in range(len(foods)):
+            if(self.head==foods[i]):
+                print('[INFO]: eat food')
+                del(foods[i])
+                flag=True
+                if(len(foods)<=3):
+                    foods.append(generate())
+        if(flag==False):
             del(self.body[0])
             del(self.directions[0])
     def push(self):
-        while True:
+        while(self.run):
             sleep(DELAY)
             self.move(self.head_direction)
 
@@ -90,6 +92,7 @@ class game:
         global user,foods,poisons
         screen.blit(background_image,(0,0))
         user=snake()
+        threading.Thread(target=user.push).start()
         foods=[]
         poisons=[]
         for i in range(FOOD_AMOUNT):
@@ -102,40 +105,39 @@ class game:
             screen.blit(food_image,(food[1]*BLOCK_SIZE,food[0]*BLOCK_SIZE))
         for poison in poisons:
             screen.blit(poison_image,(poison[1]*BLOCK_SIZE,poison[0]*BLOCK_SIZE))
-
-
+    def mainloop(self):
+        while(True):
+            key_list=pygame.key.get_pressed()
+            for event in pygame.event.get():
+                # event queue
+                if(event.type==QUIT):
+                    print('[INFO]: exit requested')
+                    pygame.quit()
+                if(event.type==KEYDOWN):
+                    if(event.key==K_LEFT or key_list[K_LEFT]):
+                        print('[INFO]: left pressed')
+                        user.move(0)
+                    if(event.key==K_RIGHT or key_list[K_RIGHT]):
+                        print('[INFO]: right pressed')
+                        user.move(3)
+                    if(event.key==K_UP or key_list[K_UP]):
+                        print('[INFO]: up pressed')
+                        user.move(1)
+                    if(event.key==K_DOWN or key_list[K_DOWN]):
+                        print('[INFO]: down pressed')
+                        user.move(2)
+            screen.fill((255,255,255))
+            screen.blit(background_image,(0,0))
+            self.print()
+            pygame.time.Clock().tick(60)
+            pygame.display.update()
 def generate():
     tmp=(randint(0,MAX_X-1),randint(0,MAX_Y-1))
     if(tmp in user.body or tmp==user.head or tmp in foods or tmp in poisons):
         generate()
     return tmp
 
-def mainloop():
-     while(True):
-        key_list=pygame.key.get_pressed()
-        for event in pygame.event.get():
-            # event queue
-            if(event.type==QUIT):
-                print('[INFO]: exit requested')
-                pygame.quit()
-            if(event.type==KEYDOWN):
-                if(event.key==K_LEFT or key_list[K_LEFT]):
-                    print('[INFO]: left pressed')
-                    user.move(0)
-                if(event.key==K_RIGHT or key_list[K_RIGHT]):
-                    print('[INFO]: right pressed')
-                    user.move(3)
-                if(event.key==K_UP or key_list[K_UP]):
-                    print('[INFO]: up pressed')
-                    user.move(1)
-                if(event.key==K_DOWN or key_list[K_DOWN]):
-                    print('[INFO]: down pressed')
-                    user.move(2)
-        screen.fill((255,255,255))
-        screen.blit(background_image,(0,0))
-        ngame.print()
-        pygame.time.Clock().tick(60)
-        pygame.display.update()
+
 
 if __name__=='__main__':
     if(WINDOW_WIDTH%BLOCK_SIZE!=0):
@@ -145,5 +147,5 @@ if __name__=='__main__':
     screen=pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT),0,32)
     pygame.display.set_caption('Tsnake')
     ngame=game()
-    maintask=threading.Thread(target=mainloop)
+    maintask=threading.Thread(target=ngame.mainloop)
     maintask.run()
