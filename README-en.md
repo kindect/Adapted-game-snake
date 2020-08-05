@@ -62,7 +62,7 @@ If you find a bug, please bring up a issue, or better, PR
 
 ***Fixed in 1.0.2***
 
-* [x] dead screen cause the program to freeze.
+* [ ] dead screen cause the program to freeze.
 
 ## TODO:
 * [ ] ~~~Multi-player(offline)~~~(abondoned)

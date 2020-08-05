@@ -57,6 +57,7 @@ Just to show a bit
 
 ![低分辨率](https://images.gitee.com/uploads/images/2020/0802/150242_ec74553b_6537938.png)
 
+* [ ] 死亡屏幕导致程序宕机(复现很容易, 解决还需再等一等)
 ## TODO:
 * [ ] ~~~多人模式(脱机)~~~(已抛弃该方案)
 
