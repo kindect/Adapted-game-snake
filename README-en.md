@@ -1,4 +1,5 @@
 # This is the main entry of kindect/Adapted-game-snake
+Chinese version(中文版本):https://gitee.com/kindect/Adapted-game-snake/blob/master/README.md
 The project is written in Python, and currently it is used for the contest.
 
 Using MulanPSL-2 lisense which is required for the contest.
@@ -17,25 +18,18 @@ Mac OS tested, but installing pygame is so much trouble especially in Big Sur, s
 ![1](https://images.gitee.com/uploads/images/2020/0802/144029_0eec6591_6537938.png "Screenshot (4).png")
 ![2](https://images.gitee.com/uploads/images/2020/0802/144046_36e1e283_6537938.png "Screenshot (5).png")
 ## Latest Release:
-https://gitee.com/kindect/Adapted-game-snake/releases
+https://gitee.com/kindect/Adapted-game-snake/releases/v1.0.2
 
-Also on github:
-
-https://github.com/kindect/Adapted-game-snake/releases
-
-Notice that the Github repo is forked from Gitee, so might have delay, check Gitee for the newest version
-
-Only provide release in Windows Platform, other platform see Build:
 
 ## Build:
-### Using Visual Studio(>=2017, commuinty or Professional(Enterprise version not tested) with Python3.7 support installed)
+### Using Visual Studio
 1. Clone the repo:
 > git clone https://gitee.com/kindect/Adapted-game-snake.git
-2. Open Visual Studio, select open a project or solution
+2. Open Visual Studio, select open a project or solution(or choose to clone from remote directory, which means to skip step 1, but you need to do some settings afterwards.)
 3. Choose Tsnake.sln
 4. Press F5 to start debug, Ctrl+F5 to run without debug
 
-###  Others:
+###  Others:(Like PyCharm, or Vi :D)
 1. Clone the repo:
 
 	git clone https://gitee.com/kindect/Adapted-game-snake.git
@@ -61,9 +55,13 @@ If you find a bug, please bring up a issue, or better, PR
 
 ***Fixed in 1.0.1-alpha***
 
-* [ ] Low contrast in posionous food
+* [x] ~~Low contrast in posionous food~~
 
 ![Low contrast](https://images.gitee.com/uploads/images/2020/0802/150242_ec74553b_6537938.png "Capture.PNG")
+
+***Fixed in 1.0.2***
+
+* [x] dead screen cause the program to freeze.
 
 ## TODO:
 * [ ] ~~~Multi-player(offline)~~~(abondoned)

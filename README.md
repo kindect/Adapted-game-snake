@@ -1,4 +1,5 @@
 # 这是 kindect/Adapted-game-snake 的主页面
+英文版本(English version):https://gitee.com/kindect/Adapted-game-snake/blob/master/README-en.md
 程序使用Python编写, 仅供参赛使用
 
 使用要求的木兰-2开源协议(MulanPSL-2)
@@ -17,28 +18,21 @@ Mac OS 已通过测试, 但是尤其是在Big Sur上安装编译Pygame太困难�
 ![展示图片1](https://images.gitee.com/uploads/images/2020/0802/144029_0eec6591_6537938.png)
 ![展示图片2](https://images.gitee.com/uploads/images/2020/0802/144046_36e1e283_6537938.png)
 ## 最新发行版
-https://gitee.com/kindect/Adapted-game-snake/releases
+https://gitee.com/kindect/Adapted-game-snake/releases/v1.0.2
 
-
-也可以从Github上下载:
-
-https://github.com/kindect/Adapted-game-snake/releases
-
-注意到Github的项目是从Gitee上Fork的, 所以可能会有延迟, 查看Gitee来看最新版
-
-另外, release只提供Windows版本
 
 ## 编译:
-### 使用Visual Studio编译(版本>=2017, 社区版或专业版, 未测试企业版, 安装Python3.7支持)
+### 使用Visual Studio编译
 1. 下载repo
 > git clone https://gitee.com/kindect/Adapted-game-snake.git
-2. 打开Visual Studio, 选择打开项目或解决方案
+2. 打开Visual Studio, 选择打开项目或解决方案(或者跳过第一步, 从远程仓库clone)
 3. 选择repo里面Tsnake.sln
 4. 按下F5开始调试, 按下Ctrl+F5来运行(不调试)
-### 其它
+
+### 其它(PyCharm, 或者Vi硬汉)
 > git clone https://gitee.com/kindect/Adapted-game-snake.git
 > cd Tsnake/
-> python3 -m install pygame
+> python3 -m pip install pygame
 > python3 Tsnake.py
 
 ## 目前的功能
