@@ -9,7 +9,7 @@
 
 ~~注意 当前版本并不稳定 release都是稳定的~~
 
-## 对Pyinstaller的支持走到尽头, 所有用户蛮烦runtime
+## 对Pyinstaller的支持走到尽头, 所有用户麻烦runtime
 
 Mac OS 已通过测试, 但是尤其是在Big Sur上安装编译Pygame太困难了, 所以不推荐
 
