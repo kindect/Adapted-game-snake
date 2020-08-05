@@ -46,6 +46,10 @@ def pattern(op,dir):
 
 class snake:
     def __init__(self,body=[(0,0),(0,1),(0,2),(0,3)],head=(0,4),directions=[3]*4,head_direction=3):
+        self.run=False
+        self.pushtask=threading.Thread(target=self.push)
+        if self.pushtask.is_alive():
+            self.pushtask.join()
         self.body=body
         self.head=head
         self.directions=directions
@@ -65,7 +69,6 @@ class snake:
         tmp=(self.head[0]+next[direction][0],self.head[1]+next[direction][1])
         if(tmp[0]>=MAX_X or tmp[0]<0 or tmp[1]>=MAX_Y or tmp[1]<0 or tmp in self.body or tmp in poisons):
             print('[INFO]: dead')
-            self.run=False
             self.__init__()
             return
         self.head=tmp
@@ -92,7 +95,7 @@ class game:
         global user,foods,poisons
         screen.blit(background_image,(0,0))
         user=snake()
-        threading.Thread(target=user.push).start()
+        user.pushtask.start()
         foods=[]
         poisons=[]
         for i in range(FOOD_AMOUNT):
@@ -105,6 +108,8 @@ class game:
             screen.blit(food_image,(food[1]*BLOCK_SIZE,food[0]*BLOCK_SIZE))
         for poison in poisons:
             screen.blit(poison_image,(poison[1]*BLOCK_SIZE,poison[0]*BLOCK_SIZE))
+        screen.blit(font.render(str((len(user.body)+1)*5),False,(255,200,10)),(10,10))
+
     def mainloop(self):
         while(True):
             key_list=pygame.key.get_pressed()
@@ -145,6 +150,7 @@ if __name__=='__main__':
     pygame.init()
     pygame.font.init()
     screen=pygame.display.set_mode((WINDOW_WIDTH,WINDOW_HEIGHT),0,32)
+    font =  pygame.font.SysFont('microsoft Yahei',30)
     pygame.display.set_caption('Tsnake')
     ngame=game()
     maintask=threading.Thread(target=ngame.mainloop)
