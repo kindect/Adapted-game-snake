@@ -7,7 +7,7 @@
 
 依赖: Pygame sys time random threading
 
-注意 当前版本并不稳定 release都是稳定的
+~~注意 当前版本并不稳定 release都是稳定的~~
 
 ## 对Pyinstaller的支持走到尽头, 所有用户蛮烦runtime
 
