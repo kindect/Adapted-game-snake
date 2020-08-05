@@ -7,7 +7,7 @@ Futher info about the code can be found in wiki.
 
 Dependencies: Pygame sys time random threading
 
-~~~Current version is not stable, go to release for stable version~~~
+~~Current version is not stable, go to release for stable version~~
 
 ## This is the end of supporting PyInstaller, All the users must exec using runtime
 
