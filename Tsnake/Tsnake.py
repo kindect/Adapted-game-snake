@@ -21,7 +21,8 @@ MAX_Y = WINDOW_WIDTH // BLOCK_SIZE
 # .
 # MAX_X
 # WINDOW_WIDTH*WINDOW_HEIGHT pixels
-background_image = pygame.image.load("pics/background.png")
+background_image = pygame.image.load('pics/background.png')
+dead_image=pygame.image.load('pics/dead.png')
 
 # BLOCK_SIZE*BLOCK_SIZE pixel
 body_image_1 = pygame.image.load('pics/body/1.png')
@@ -50,9 +51,6 @@ def pattern(op, direction):
 class Snake:
     def __init__(self, body=None, head=None, directions=None, head_direction=None):
         self.run = False
-        self.push_task = threading.Thread(target=self.push)
-        if self.push_task.is_alive():
-            self.push_task.join()
         if directions is None:
             directions = [3] * 4
         if head is None:
@@ -69,24 +67,32 @@ class Snake:
         self.run = True
 
     def print(self):
-        exec("screen.blit(head_image_" + str(
-            self.head_direction) + ",(self.head[1]*BLOCK_SIZE,self.head[0]*BLOCK_SIZE))")
+        exec('screen.blit(head_image_' + str(
+            self.head_direction) + ',(self.head[1]*BLOCK_SIZE,self.head[0]*BLOCK_SIZE))')
         for i in range(len(self.body)):
-            exec("screen.blit(body_image_" + str(
-                self.directions[i]) + ",(self.body[i][1]*BLOCK_SIZE,self.body[i][0]*BLOCK_SIZE))")
+            exec('screen.blit(body_image_' + str(
+                self.directions[i]) + ',(self.body[i][1]*BLOCK_SIZE,self.body[i][0]*BLOCK_SIZE))')
 
     def move(self, direction):
         if direction + self.head_direction == 3:
             return
-        self.body.append(self.head)
-        self.directions.append(pattern(direction, self.head_direction))
         next_p = [(0, -1), (-1, 0), (1, 0), (0, 1)]
         tmp = (self.head[0] + next_p[direction][0], self.head[1] + next_p[direction][1])
         if tmp[0] >= MAX_X or tmp[0] < 0 or tmp[1] >= MAX_Y or tmp[1] < 0 or tmp in self.body or tmp in poisons:
-            print("[INFO]: dead")
+            print('[INFO]: dead')
             self.run = False
-            self.__init__()
-            return
+            main_task._stop()
+            screen.blit(dead_image, (80, 0))
+            sleep(1)
+            for event in pygame.event.get():
+                if event.key==K_y:
+                    game_p.__init__()
+                    return
+                if event.key==K_n:
+                    pygame.quit()
+                    return
+        self.body.append(self.head)
+        self.directions.append(pattern(direction, self.head_direction))
         self.head = tmp
         self.head_direction = direction
         global foods
@@ -130,7 +136,7 @@ class Game:
         screen.blit(font.render(str((len(user.body) + 1) * 5), False, (255, 200, 10)), (10, 10))
 
     def mainloop(self):
-        while True:
+        while user.run:
             key_list = pygame.key.get_pressed()
             for event in pygame.event.get():
                 # event queue
@@ -164,9 +170,9 @@ def generate():
     return tmp
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     if WINDOW_WIDTH % BLOCK_SIZE != 0:
-        print("[Error]: Bad WINDOW_WIDTH WINDOW_HEIGHT")
+        print('[Error]: Bad WINDOW_WIDTH WINDOW_HEIGHT')
     pygame.init()
     pygame.font.init()
     screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
