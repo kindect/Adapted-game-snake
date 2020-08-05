@@ -1,5 +1,6 @@
 # This is the main entry of kindect/Adapted-game-snake
 Chinese version(中文版本):https://gitee.com/kindect/Adapted-game-snake/blob/master/README.md
+
 The project is written in Python, and currently it is used for the contest.
 
 Using MulanPSL-2 lisense which is required for the contest.

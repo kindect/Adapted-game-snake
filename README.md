@@ -1,5 +1,6 @@
 # 这是 kindect/Adapted-game-snake 的主页面
 英文版本(English version):https://gitee.com/kindect/Adapted-game-snake/blob/master/README-en.md
+
 程序使用Python编写, 仅供参赛使用
 
 使用要求的木兰-2开源协议(MulanPSL-2)
