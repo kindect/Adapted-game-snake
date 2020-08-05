@@ -13,10 +13,6 @@ Dependencies: Pygame sys time random threading
 ## Latest Release:
 https://gitee.com/kindect/Adapted-game-snake/releases
 
-can also download from:
-
-https://gitee.com/kindect/Adapted-game-snake/raw/master/Tsnake/dist/Tsnake.zip
-
 Also on github:
 
 https://github.com/kindect/Adapted-game-snake/releases

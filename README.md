@@ -15,9 +15,6 @@
 ## 最新发行版
 https://gitee.com/kindect/Adapted-game-snake/releases
 
-作为源码的一部分下载(只有最新版):
-
-https://gitee.com/kindect/Adapted-game-snake/raw/master/Tsnake/dist/Tsnake.zip
 
 也可以从Github上下载:
 
