@@ -10,12 +10,14 @@
 # import part
 import pygame
 from pygame.locals import *
-from time import sleep
+from time import sleep,time
 from random import randint
 import threading
 
+pygame.mixer.pre_init(48000, 16, 2, 4096)
 pygame.init()
 pygame.font.init()
+pygame.mixer.init()
 
 # Global variable
 DELAY = 0.1  # time before auto move(in sec, float)
@@ -68,6 +70,10 @@ screen = pygame.display.set_mode((1,1),0)
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
 pygame.display.set_caption('T_snake')
 
+background_music=pygame.mixer.Sound('resource/background.wav')
+dead_music=pygame.mixer.Sound('resource/dead.wav')
+
+
 def pattern(op, direction):
     direction_p = 3 - direction
     return min(op, direction_p) * 10 + max(op, direction_p)
@@ -96,18 +102,16 @@ class Snake:
                 self.directions[i]) + ',(self.body[i][1]*BLOCK_SIZE,self.body[i][0]*BLOCK_SIZE))')
 
     def move(self, direction):
+        global run, exit
         if direction + self.head_direction == 3:
             return
         next_p = [(0, -1), (-1, 0), (1, 0), (0, 1)]
         tmp = (self.head[0] + next_p[direction][0], self.head[1] + next_p[direction][1])
         if tmp[0] >= MAX_X or tmp[0] < 0 or tmp[1] >= MAX_Y or tmp[1] < 0 or tmp in self.body or tmp in poisons:
             print('[INFO]: dead')
-            global run
             run = False
-            #
-            sleep(1)
-            self.__init__()
-            run=True
+            background_music.stop()
+            dead_music.play()
             return
         self.body.append(self.head)
         self.directions.append(pattern(direction, self.head_direction))
@@ -167,7 +171,29 @@ class Game:
                             user.move(2)
                 self.print_p()
             else:
+                target=int(time())+120
                 screen.blit(dead_image, (WINDOW_WIDTH/8, 0))    
+                while(time()<target):
+                    for event in pygame.event.get():
+                        # event queue
+                        if event.type == QUIT:
+                            dead_music.stop()
+                            print('[INFO]: exit requested')
+                            pygame.quit()
+                            exit=True
+                            return
+                        if event.type == KEYDOWN:
+                            if event.key == K_y or key_list[K_y]:
+                                dead_music.stop()
+                                print('[INFO]: restart game')
+                                init()
+                                return
+                            if event.key == K_RIGHT or key_list[K_RIGHT]:
+                                dead_music.stop()
+                                print('[INFO]: exit requested')
+                                pygame.quit()
+                                exit=True
+                                return
             pygame.time.Clock().tick(60)
             pygame.display.update()
 
@@ -182,6 +208,7 @@ def generate():
 def init():
     # variables for the whole program
     global foods, poisons,run,user,game_p,exit
+    background_music.play()
     exit=False
     foods = []
     poisons = []
