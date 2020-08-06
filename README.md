@@ -1,3 +1,4 @@
+devoted to zxx
 # 这是 kindect/Adapted-game-snake 的主页面
 英文版本(English version):https://gitee.com/kindect/Adapted-game-snake/blob/master/README-en.md
 
