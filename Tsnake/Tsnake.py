@@ -1,10 +1,10 @@
 # Author kindect@github/gitee
 # Mail kindect@163.com
 # Copyright 2020. All rights reserved.
-# Using MulanPSL-2 as lisence, which can be seen here:https://license.coscl.org.cn/MulanPSL2
+# Using MulanPSL-2 as license, which can be seen here:https://license.coscl.org.cn/MulanPSL2
 # devoted to zxx.
 
-# offical repo address:https://gitee.com/kindect/Adapted-game-snake
+# official repo address:https://gitee.com/kindect/Adapted-game-snake
 
 # if you want to make a project using this file, keep the author notice here
 
@@ -29,7 +29,8 @@
 # import part
 import pygame
 from pygame.locals import *
-from time import sleep,time
+from time import sleep
+# from time import time
 from random import randint
 import threading
 
@@ -45,16 +46,16 @@ WINDOW_WIDTH = 640  # must be BLOCK_SIZE*n
 WINDOW_HEIGHT = 480  # same.
 FOOD_AMOUNT = 3  # int >=1
 POISON_AMOUNT = 3  # int >=0
-BLOCK_SIZE = 20 # other size is OK, but not recommended(unless you have a extremely low resolution screen)
-MAX_X = WINDOW_HEIGHT // BLOCK_SIZE # MAX of x the program can reach
-MAX_Y = WINDOW_WIDTH // BLOCK_SIZE # same.
-FONT_SIZE=30
-FRAME_RATE=60
+BLOCK_SIZE = 20  # other size is OK, but not recommended(unless you have a extremely low resolution screen)
+MAX_X = WINDOW_HEIGHT // BLOCK_SIZE  # MAX of x the program can reach
+MAX_Y = WINDOW_WIDTH // BLOCK_SIZE  # same.
+FONT_SIZE = 30
+FRAME_RATE = 60
 
 # WINDOW_WIDTH*WINDOW_HEIGHT pixels
 background_image = pygame.image.load('resource/background.png')
 
-# 3/4 WINDOW_WIDTH * 1/4 WIDOW_HIGHT
+# 3/4 WINDOW_WIDTH * 1/4 WIDOW_HEIGHT
 # not enabled due to Bug#3
 # dead_image=pygame.image.load('resource/dead.png')
 
@@ -78,35 +79,35 @@ food_image = pygame.image.load('resource/food.png')
 # BLOCK_SIZE*BLOCK_SIZE pixel
 poison_image = pygame.image.load('resource/poison.png')
 
-font = pygame.font.SysFont('resource/Chalkboard.ttc',FONT_SIZE)
+font = pygame.font.SysFont('resource/Chalkboard.ttc', FONT_SIZE)
 
 if WINDOW_WIDTH % BLOCK_SIZE != 0:
     print('[Error]: Bad WINDOW_WIDTH WINDOW_HEIGHT')
 
 # for pygame to init itself
-screen = pygame.display.set_mode((1,1),0)
+screen = pygame.display.set_mode((1, 1), 0)
+# noinspection PyRedeclaration
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
 pygame.display.set_caption('T_snake')
 
-background_music=pygame.mixer.Sound('resource/background.wav')
-dead_music=pygame.mixer.Sound('resource/dead.wav')
+background_music = pygame.mixer.Sound('resource/background.wav')
+dead_music = pygame.mixer.Sound('resource/dead.wav')
 
 
 def pattern(op, direction):
     # this is a function to return how the snake should look like
     # op means the direction head was heading, direction means the head is now heading
     direction_p = 3 - direction
-    # return should be direction_p(PEP regulations), op
-    # return statement is only to find the smallest and the biggest and put them in order(since we don't have body_image_30, we only have body_image_3)
+    # return should be direction_p(PEP regulations), op return statement is only to find the smallest and the biggest
+    # and put them in order(since we don't have body_image_30, we only have body_image_3)
     return min(op, direction_p) * 10 + max(op, direction_p)
 
 
 class Snake:
     def __init__(self, body=None, head=None, directions=None, head_direction=None):
-        # vars explained:
-        # body is list[tuple] from tail to head(not included)->(tail,head], tuple in (x,y), mentioned above
-        # body_direction is used for the program to print the snake boy in a beautiful way, direction is smallest number in direcion with biggest, like 03(3), 23, 31->13 
-        # PEP regulations
+        # vars explained: body is list[tuple] from tail to head(not included)->(tail,head], tuple in (x,y),
+        # mentioned above body_direction is used for the program to print the snake boy in a beautiful way,
+        # direction is smallest number in direction with biggest, like 03(3), 23, 31->13 PEP regulations
         if directions is None:
             directions = [3] * 4
         if head is None:
@@ -121,14 +122,17 @@ class Snake:
         self.head_direction = head_direction
 
     def print_p(self):
-        # only print the snake itself
-        # might have security issues, but it is a game for fun, test security issues as you want.(without modifing the const string)
-        exec('screen.blit(head_image_' + str(self.head_direction) + ',(self.head[1]*BLOCK_SIZE,self.head[0]*BLOCK_SIZE))')
+        # only print the snake itself might have security issues, but it is a game for fun, test security issues as
+        # you want.(without modifying the const string)
+        exec('screen.blit(head_image_' + str(
+            self.head_direction) + ',(self.head[1]*BLOCK_SIZE,self.head[0]*BLOCK_SIZE))')
         for i in range(len(self.body)):
-            exec('screen.blit(body_image_' + str(self.directions[i]) + ',(self.body[i][1]*BLOCK_SIZE,self.body[i][0]*BLOCK_SIZE))')
+            exec('screen.blit(body_image_' + str(
+                self.directions[i]) + ',(self.body[i][1]*BLOCK_SIZE,self.body[i][0]*BLOCK_SIZE))')
 
     def move(self, direction):
-        global run, exit
+        # noinspection PyGlobalUndefined
+        global run, exit_p
         if direction + self.head_direction == 3:
             # if the user want to head the opposite direction, kill the process
             return
@@ -144,7 +148,7 @@ class Snake:
             sleep(10)
             dead_music.stop()
             background_music.play()
-            run=True
+            run = True
             self.__init__()
             return
         # only do these when it is not dead
@@ -152,6 +156,7 @@ class Snake:
         self.directions.append(pattern(direction, self.head_direction))
         self.head = tmp
         self.head_direction = direction
+        # noinspection PyGlobalUndefined
         global foods
         if self.head in foods:
             if len(foods) <= FOOD_AMOUNT:
@@ -175,7 +180,8 @@ class Snake:
 
 
 class Game:
-    def print_p(self):
+    @staticmethod
+    def print_p():
         # print the whole window
         screen.fill((255, 255, 255))
         screen.blit(background_image, (0, 0))
@@ -186,6 +192,8 @@ class Game:
         for poison in poisons:
             screen.blit(poison_image, (poison[1] * BLOCK_SIZE, poison[0] * BLOCK_SIZE))
         screen.blit(font.render(str((len(user.body) + 1) * 5), False, (255, 200, 10)), (10, 10))
+
+    # noinspection PyGlobalUndefined
     def mainloop(self):
         # actually fully static
         while True:
@@ -197,8 +205,8 @@ class Game:
                     if event.type == QUIT:
                         print('[INFO]: exit requested')
                         pygame.quit()
-                        global exit
-                        exit=True
+                        global exit_p
+                        exit_p = True
                         return
                     if event.type == KEYDOWN:
                         if event.key == K_LEFT or key_list[K_LEFT]:
@@ -214,8 +222,8 @@ class Game:
                             print('[INFO]: down pressed')
                             user.move(2)
                 self.print_p()
-            #this is the part where README.md says running with a error, currently no solution, so wait
-            #else:
+            # this is the part where README.md says running with a error, currently no solution, so wait
+            # else:
             #
             #    #target=int(time())+120
             #    #screen.blit(dead_image, (WINDOW_WIDTH/8, 0))    
@@ -245,34 +253,37 @@ class Game:
 
 
 def generate():
-    # generate new food or poiosn, they are actually the same
+    # generate new food or poison, they are actually the same
     tmp = (randint(0, MAX_X - 1), randint(0, MAX_Y - 1))
-    if tmp in user.body or tmp == user.head or tmp in foods or tmp in poisons or tmp[0]==0:
+    if tmp in user.body or tmp == user.head or tmp in foods or tmp in poisons or tmp[0] == 0:
         # if it is in the body, or is the head, or already in foods ir poisons
         # or it is in the first row
         # self call to generate a new one
-        tmp=generate()
+        tmp = generate()
     return tmp
 
 
+# noinspection PyGlobalUndefined
 def init():
     # variables for the whole program
-    global foods, poisons,run,user,game_p,exit
+    global foods, poisons, run, user, game_p, exit_p
     background_music.play()
-    exit=False
+    exit_p = False
     foods = []
     poisons = []
-    run=False
-    user=Snake()
+    run = False
+    user = Snake()
     game_p = Game()
     for i in range(FOOD_AMOUNT):
         foods.append(generate())
     for i in range(POISON_AMOUNT):
         poisons.append(generate())
-    run=True
+    run = True
 
-if __name__=='__main__':
+
+if __name__ == '__main__':
     init()
+    # noinspection PyUnboundLocalVariable
     threading.Thread(target=user.push).start()
+    # noinspection PyUnboundLocalVariable
     threading.Thread(target=game_p.mainloop).run()
-
