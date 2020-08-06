@@ -60,13 +60,19 @@ poison_image = pygame.image.load('resource/poison.png')
 
 font = pygame.font.SysFont('resource/Chalkboard.ttc', 30)
 
+if WINDOW_WIDTH % BLOCK_SIZE != 0:
+    print('[Error]: Bad WINDOW_WIDTH WINDOW_HEIGHT')
+
+# for pygame to init itself
+screen = pygame.display.set_mode((1,1),0)
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
+pygame.display.set_caption('T_snake')
 
 def pattern(op, direction):
     direction_p = 3 - direction
     return min(op, direction_p) * 10 + max(op, direction_p)
 
 
-# noinspection PyGlobalUndefined
 class Snake:
     def __init__(self, body=None, head=None, directions=None, head_direction=None):
         if directions is None:
@@ -81,8 +87,6 @@ class Snake:
         self.head = head
         self.directions = directions
         self.head_direction = head_direction
-        self.run = True
-        threading.Thread(target=self.push).start()
 
     def print_p(self):
         exec('screen.blit(head_image_' + str(
@@ -98,23 +102,20 @@ class Snake:
         tmp = (self.head[0] + next_p[direction][0], self.head[1] + next_p[direction][1])
         if tmp[0] >= MAX_X or tmp[0] < 0 or tmp[1] >= MAX_Y or tmp[1] < 0 or tmp in self.body or tmp in poisons:
             print('[INFO]: dead')
+            global run
             run = False
-            screen.blit(dead_image, (WINDOW_WIDTH/8, 0))
+            #
             sleep(1)
-            for event in pygame.event.get():
-                if event.key==K_y:
-                    game_p.__init__()
-                    return
-                if event.key==K_n:
-                    pygame.quit()
-                    return
+            self.__init__()
+            run=True
+            return
         self.body.append(self.head)
         self.directions.append(pattern(direction, self.head_direction))
         self.head = tmp
         self.head_direction = direction
         global foods
         if self.head in foods:
-            if len(foods) <= 3:
+            if len(foods) <= FOOD_AMOUNT:
                 foods[foods.index(self.head)] = generate()
             else:
                 del (foods[foods.index(self.head)])
@@ -123,9 +124,10 @@ class Snake:
             del (self.body[0])
 
     def push(self):
-        while run:
-            sleep(DELAY)
-            self.move(self.head_direction)
+        while not exit:
+            if run:
+                sleep(DELAY)
+                self.move(self.head_direction)
 
 
 class Game:
@@ -138,56 +140,62 @@ class Game:
         for poison in poisons:
             screen.blit(poison_image, (poison[1] * BLOCK_SIZE, poison[0] * BLOCK_SIZE))
         screen.blit(font.render(str((len(user.body) + 1) * 5), False, (255, 200, 10)), (10, 10))
-        pygame.time.Clock().tick(60)
-        pygame.display.update()
     def mainloop(self):
-        while run:
-            key_list = pygame.key.get_pressed()
-            for event in pygame.event.get():
-                # event queue
-                if event.type == QUIT:
-                    print('[INFO]: exit requested')
-                    pygame.quit()
-                if event.type == KEYDOWN:
-                    if event.key == K_LEFT or key_list[K_LEFT]:
-                        print('[INFO]: left pressed')
-                        user.move(0)
-                    if event.key == K_RIGHT or key_list[K_RIGHT]:
-                        print('[INFO]: right pressed')
-                        user.move(3)
-                    if event.key == K_UP or key_list[K_UP]:
-                        print('[INFO]: up pressed')
-                        user.move(1)
-                    if event.key == K_DOWN or key_list[K_DOWN]:
-                        print('[INFO]: down pressed')
-                        user.move(2)
-            self.print_p()
+        while True:
+            if run:
+                key_list = pygame.key.get_pressed()
+                for event in pygame.event.get():
+                    # event queue
+                    if event.type == QUIT:
+                        print('[INFO]: exit requested')
+                        pygame.quit()
+                        global exit
+                        exit=True
+                        return
+                    if event.type == KEYDOWN:
+                        if event.key == K_LEFT or key_list[K_LEFT]:
+                            print('[INFO]: left pressed')
+                            user.move(0)
+                        if event.key == K_RIGHT or key_list[K_RIGHT]:
+                            print('[INFO]: right pressed')
+                            user.move(3)
+                        if event.key == K_UP or key_list[K_UP]:
+                            print('[INFO]: up pressed')
+                            user.move(1)
+                        if event.key == K_DOWN or key_list[K_DOWN]:
+                            print('[INFO]: down pressed')
+                            user.move(2)
+                self.print_p()
+            else:
+                screen.blit(dead_image, (WINDOW_WIDTH/8, 0))    
+            pygame.time.Clock().tick(60)
+            pygame.display.update()
+
 
 def generate():
     tmp = (randint(0, MAX_X - 1), randint(0, MAX_Y - 1))
-    if tmp in user.body or tmp == user.head or tmp in foods or tmp in poisons:
-        generate()
+    if tmp in user.body or tmp == user.head or tmp in foods or tmp in poisons or tmp[0]==0:
+        tmp=generate()
     return tmp
 
 
-if __name__ == '__main__':
-    # perform a check
-    if WINDOW_WIDTH % BLOCK_SIZE != 0:
-        print('[Error]: Bad WINDOW_WIDTH WINDOW_HEIGHT')
-    
-    # for pygame to init itself
-    screen = pygame.display.set_mode((1,1),0)
-    screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), 0, 32)
-    pygame.display.set_caption('T_snake')
-    
+def init():
     # variables for the whole program
+    global foods, poisons,run,user,game_p,exit
+    exit=False
     foods = []
     poisons = []
-    run=True
+    run=False
     user=Snake()
     game_p = Game()
     for i in range(FOOD_AMOUNT):
         foods.append(generate())
     for i in range(POISON_AMOUNT):
         poisons.append(generate())
-    game_p.mainloop()
+    run=True
+
+if __name__=='__main__':
+    init()
+    threading.Thread(target=user.push).start()
+    threading.Thread(target=game_p.mainloop).run()
+
