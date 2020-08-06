@@ -18,12 +18,20 @@ Pygame其实就是这样一个框架, 用SDL写的库文件, 效率能稍微比P
 ![蛇身](https://images.gitee.com/uploads/images/2020/0806/171536_c88950d8_6537938.png "example.png")
 后来就是PEP规范, 这个规范简直离谱, 但是为了可读性, 我也加了不少注释(我本人很讨厌写注释, 但是, 对于'代码被阅读的次数总比编写的次数多的原则, 我还是写了注释, 而且详细解释了这些原则')
 
+![comment](https://images.gitee.com/uploads/images/2020/0806/174719_c34bbe4e_6537938.png "comment.png")
+
+![comment](https://images.gitee.com/uploads/images/2020/0806/174749_383bdf0c_6537938.png "comment.png")
+
+谁要再说我不写注释, 我就和谁急:D
+
 一个程序, 最重要的就应该是, 把选择权交给用户, 开源程序当然是其中的一种, 之前写代码都是"开源是一种美德, 也是实力", 但是之前写代码都是缝缝补补, 从来不封装class, 现在开源是要求, 但是不写注释的开源还不如不开源.
 
 把选择权交给用户的理念的体现便是, 把文件(图片, 音频, 字体)都拿出来放在外面resouce/去, 其它仓库\项目也许可以直接把这些文件拿走, 但是也务必贯彻这一种精神(如果你要闭源的话)
 
 repo的访问量很高, 有图为证, 但是下载量不高, Download Zip的人也不高, Star也只有4个, 其中一个还是我自己
+
 ![access页面](https://images.gitee.com/uploads/images/2020/0806/171213_02815615_6537938.png "Screenshot")
+
 有些人刷star的, 看看点star的人你就能发现, 新注册, 没有repo, 就点了一个赞, 然后就跑了
 
 如果你怀疑我不认真搞项目, 你可以看看commit数量:D
