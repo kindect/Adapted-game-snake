@@ -94,7 +94,7 @@ background_music = pygame.mixer.Sound('resource/background.wav')
 dead_music = pygame.mixer.Sound('resource/dead.wav')
 
 
-def pattern(op, direction):
+def pattern(op:int, direction:int)->int:
     # this is a function to return how the snake should look like
     # op means the direction head was heading, direction means the head is now heading
     direction_p = 3 - direction
@@ -104,7 +104,7 @@ def pattern(op, direction):
 
 
 class Snake:
-    def __init__(self, body=None, head=None, directions=None, head_direction=None):
+    def __init__(self, body:list=None, head:tuple=None, directions:list=None, head_direction:int=None)->None:
         # vars explained: body is list[tuple] from tail to head(not included)->(tail,head], tuple in (x,y),
         # mentioned above body_direction is used for the program to print the snake boy in a beautiful way,
         # direction is smallest number in direction with biggest, like 03(3), 23, 31->13 PEP regulations
@@ -121,7 +121,7 @@ class Snake:
         self.directions = directions
         self.head_direction = head_direction
 
-    def print_p(self):
+    def print_p(self)->None:
         # only print the snake itself might have security issues, but it is a game for fun, test security issues as
         # you want.(without modifying the const string)
         exec('screen.blit(head_image_' + str(
@@ -130,7 +130,7 @@ class Snake:
             exec('screen.blit(body_image_' + str(
                 self.directions[i]) + ',(self.body[i][1]*BLOCK_SIZE,self.body[i][0]*BLOCK_SIZE))')
 
-    def move(self, direction):
+    def move(self, direction:int)->None:
         # noinspection PyGlobalUndefined
         global run, exit_p
         if direction + self.head_direction == 3:
@@ -169,7 +169,7 @@ class Snake:
             del (self.directions[0])
             del (self.body[0])
 
-    def push(self):
+    def push(self)->None:
         # this function is used to push the snake in DELAY seconds.
         # run in a thread
         while True:
@@ -181,7 +181,7 @@ class Snake:
 
 class Game:
     @staticmethod
-    def print_p():
+    def print_p()->None:
         # print the whole window
         screen.fill((255, 255, 255))
         screen.blit(background_image, (0, 0))
@@ -193,9 +193,7 @@ class Game:
             screen.blit(poison_image, (poison[1] * BLOCK_SIZE, poison[0] * BLOCK_SIZE))
         screen.blit(font.render(str((len(user.body) + 1) * 5), False, (255, 200, 10)), (10, 10))
 
-    # noinspection PyGlobalUndefined
-    def mainloop(self):
-        # actually fully static
+    def mainloop(self)->None:
         while True:
             # make sure the thread is always alive and therefore only need to start once
             if run:
@@ -252,7 +250,7 @@ class Game:
             pygame.display.update()
 
 
-def generate():
+def generate()->tuple:
     # generate new food or poison, they are actually the same
     tmp = (randint(0, MAX_X - 1), randint(0, MAX_Y - 1))
     if tmp in user.body or tmp == user.head or tmp in foods or tmp in poisons or tmp[0] == 0:
@@ -264,7 +262,7 @@ def generate():
 
 
 # noinspection PyGlobalUndefined
-def init():
+def init()->None:
     # variables for the whole program
     global foods, poisons, run, user, game_p, exit_p
     background_music.play()

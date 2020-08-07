@@ -37,6 +37,8 @@ repo的访问量很高, 有图为证, 但是下载量不高, Download Zip的人�
 
 如果你怀疑我不认真搞项目, 你可以看看commit数量:D
 
+现在可以下载release然后开始吟唱~
+
 ### 愿景:
 
 1. 发到pypi上面, 以后直接pip install tsnake
